@@ -246,6 +246,7 @@ body {
   border-radius: 15px;
   backdrop-filter: blur(5px);
   z-index: 100;
+  text-align: left;
 }
 
 #poem-text {
@@ -254,6 +255,7 @@ body {
   white-space: pre-wrap;
   font-size: 1.1rem;
   line-height: 1.5;
+  text-align: left;
 }
 
 @media (max-width: 930px) {

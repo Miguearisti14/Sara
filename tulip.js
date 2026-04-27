@@ -3,7 +3,7 @@ window.onload = () => {
     document.body.classList.remove("not-loaded");
   }, 1000);
 
-  const poem = "Tu poema aparece aqui...";
+  const poem = "Jamás me voy a cansar de ti. Me importas muchísimo y me encanta estar contigo. Incluso en los días difíciles, sigues siendo alguien que quiero tener cerca.";
   const element = document.getElementById("poem-text");
 
   let i = 0;
@@ -18,3 +18,4 @@ window.onload = () => {
 
   escribir();
 };
+
