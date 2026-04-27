@@ -1,0 +1,239 @@
+:root {
+  --night-1: #120317;
+  --night-2: #2a0a35;
+  --night-3: #3a1648;
+  --pink-1: #ff7db8;
+  --pink-2: #ff5ea7;
+  --pink-3: #ff9ccc;
+  --pink-shadow: #cf3f84;
+  --stem-1: #2b9f5c;
+  --stem-2: #1f7a45;
+  --leaf-1: #3bcf77;
+  --leaf-2: #238a52;
+  --text-main: #fff2fa;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background: radial-gradient(circle at 20% 15%, #55306a 0%, transparent 28%),
+    radial-gradient(circle at 80% 0%, #6a2f77 0%, transparent 25%),
+    linear-gradient(180deg, var(--night-3) 0%, var(--night-2) 40%, var(--night-1) 100%);
+}
+
+.sky-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 50% -15%, rgba(255, 171, 219, 0.35), transparent 58%),
+    repeating-radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 45px);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+.message-card {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: min(92vw, 680px);
+  text-align: center;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(255, 185, 223, 0.3);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(39, 12, 55, 0.78), rgba(70, 26, 91, 0.62));
+  backdrop-filter: blur(4px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.message-card h1 {
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+#customMessage {
+  font-size: clamp(1rem, 2.2vw, 1.55rem);
+  line-height: 1.35;
+  min-height: 2.4em;
+  text-wrap: balance;
+}
+
+.hint {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.garden {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8vmin;
+}
+
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20vmin;
+  background: linear-gradient(to top, #193f2b 0%, #245639 45%, transparent 100%);
+  z-index: 0;
+}
+
+.tulip {
+  position: absolute;
+  left: calc(50% + var(--offset));
+  bottom: 10vmin;
+  width: 16vmin;
+  height: var(--height);
+  transform-origin: bottom center;
+  animation: grow 1.5s ease var(--delay) backwards, sway 4.5s ease-in-out calc(var(--delay) + 1.4s) infinite;
+  z-index: 5;
+}
+
+.tulip::before,
+.tulip::after {
+  content: "";
+  position: absolute;
+}
+
+.tulip::before {
+  left: 50%;
+  bottom: 0;
+  width: 1.6vmin;
+  height: 72%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--stem-2), var(--stem-1));
+  box-shadow: inset 0 0 0.45vmin rgba(255, 255, 255, 0.22);
+}
+
+.tulip::after {
+  left: 50%;
+  bottom: 58%;
+  width: 9.5vmin;
+  height: 10.5vmin;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 50% 12%, #ffe1f1 0%, #ff9fce 32%, var(--pink-2) 70%, var(--pink-shadow) 100%);
+  clip-path: polygon(8% 95%, 20% 30%, 36% 55%, 50% 10%, 64% 56%, 80% 28%, 92% 95%);
+  filter: drop-shadow(0 0.3vmin 0.2vmin rgba(0, 0, 0, 0.3));
+}
+
+.tulip .leaf {
+  position: absolute;
+  bottom: 20%;
+  width: 7.2vmin;
+  height: 11vmin;
+  border-radius: 60% 40% 50% 50%;
+  background: linear-gradient(160deg, var(--leaf-1), var(--leaf-2));
+  z-index: 1;
+}
+
+.tulip .leaf--left {
+  left: 10%;
+  transform: rotate(-24deg) skewX(-6deg);
+}
+
+.tulip .leaf--right {
+  right: 10%;
+  transform: rotate(24deg) scaleX(-1) skewX(-6deg);
+}
+
+.tulip--2,
+.tulip--4 {
+  transform: scale(0.9);
+}
+
+.tulip--1,
+.tulip--5 {
+  transform: scale(0.8);
+}
+
+@keyframes grow {
+  from {
+    opacity: 0;
+    transform: scaleY(0.05);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2.4deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.tulip > .leaf {
+  animation: leaf-move 4s ease-in-out infinite;
+}
+
+@keyframes leaf-move {
+  0%,
+  100% {
+    transform: rotate(-24deg) skewX(-6deg);
+  }
+  50% {
+    transform: rotate(-18deg) skewX(-3deg);
+  }
+}
+
+.tulip > .leaf--right {
+  animation-name: leaf-move-right;
+}
+
+@keyframes leaf-move-right {
+  0%,
+  100% {
+    transform: rotate(24deg) scaleX(-1) skewX(-6deg);
+  }
+  50% {
+    transform: rotate(18deg) scaleX(-1) skewX(-3deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .message-card {
+    top: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .hint {
+    font-size: 0.72rem;
+  }
+
+  .tulip {
+    width: 20vmin;
+  }
+}
