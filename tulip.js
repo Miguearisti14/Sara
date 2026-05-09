@@ -3,7 +3,7 @@ window.onload = () => {
     document.body.classList.remove("not-loaded");
   }, 1000);
 
-  const poem = "Jamás me voy a cansar de ti. Me importas muchísimo y me encanta estar contigo. Incluso en los días difíciles, sigues siendo alguien que quiero tener cerca.";
+  const poem = "Siempre voy a estar para ti. Me importas muchísimo y me encanta estar contigo. Incluso en los momentos difíciles, sigues siendo alguien que quiero tener cerca. Te amo";
   const element = document.getElementById("poem-text");
 
   let i = 0;
