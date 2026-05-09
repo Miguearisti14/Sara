@@ -14,13 +14,21 @@
   --stem-color-dark: #3a8240;
 }
 
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 100vh;
+  width: 100%;
+  height: 100dvh;
+  min-height: 100vh;
   background: var(--dark-color);
   overflow: hidden;
+  overscroll-behavior: none;
   perspective: 1000px;
 }
 
@@ -362,15 +370,15 @@ body {
   color: #fff0f5;
   font-family: "Courier New", monospace;
   white-space: pre-wrap;
-  font-size: 1.08rem;
+  font-size: 1.3rem;
   line-height: 1.5;
   text-align: left;
 }
 
 @media (max-width: 930px) {
   .flowers {
-    height: 65vh;
-    transform: scale(1.35) translateY(4vh);
+    height: 92vh;
+    transform: scale(1.7) translateY(-10vh);
   }
 
   .poem-card {
@@ -381,15 +389,15 @@ body {
   }
 
   #poem-text {
-    font-size: 0.98rem;
+    font-size: 1.15rem;
     line-height: 1.45;
   }
 }
 
 @media (max-width: 600px) {
   .flowers {
-    height: 62vh;
-    transform: scale(1.1) translateY(5vh);
+    height: 94vh;
+    transform: scale(1.4) translateY(-14vh);
   }
 
   .poem-card {
@@ -399,14 +407,15 @@ body {
   }
 
   #poem-text {
-    font-size: 0.92rem;
+    font-size: 1.05rem;
     line-height: 1.4;
   }
 }
 
 @media (max-width: 380px) {
   .flowers {
-    transform: scale(0.92) translateY(6vh);
+    height: 96vh;
+    transform: scale(1.2) translateY(-18vh);
   }
 
   .poem-card {
@@ -416,7 +425,7 @@ body {
   }
 
   #poem-text {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     line-height: 1.35;
   }
 }
