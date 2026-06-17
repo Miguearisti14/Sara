@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <title>Una carta para ti</title>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff", "surface-tint": "#a781ae",
+            "inverse-on-surface": "#f8f0f5", "surface-variant": "#eee1eb",
+            "secondary-container": "#f1e1f3", "on-tertiary-container": "#625f62",
+            "outline": "#8a7485", "primary": "#8a6691", "tertiary-container": "#e9e1e9",
+            "error": "#ba1a1a", "tertiary-fixed-dim": "#cfc3cf", "tertiary": "#6b586e",
+            "secondary-fixed-dim": "#d2b7d6", "primary-fixed": "#f9d8fb", "on-error": "#ffffff",
+            "on-surface": "#1f1a1f", "outline-variant": "#d2c3cf", "on-tertiary-fixed": "#1e1a1e",
+            "primary-fixed-dim": "#ddbde2", "secondary-fixed": "#f2dafa", "surface-dim": "#e0d8de",
+            "on-secondary-fixed-variant": "#544059", "surface-container": "#f5ebf2",
+            "on-tertiary-fixed-variant": "#4d444d", "surface-bright": "#fff7fc",
+            "on-primary-fixed": "#2d1631", "surface-container-high": "#f0e5ec",
+            "surface": "#fff7fc", "on-error-container": "#93000a", "secondary": "#a781ae",
+            "primary-container": "#f5d9f7", "on-surface-variant": "#4f444c",
+            "on-primary-fixed-variant": "#604164", "on-secondary": "#ffffff",
+            "surface-container-highest": "#e9dee5", "inverse-primary": "#e2bced",
+            "on-primary": "#ffffff", "background": "#fff7fc", "surface-container-low": "#faf1f8",
+            "tertiary-fixed": "#ede2ed", "on-primary-container": "#6e5672",
+            "on-background": "#1f1a1f", "error-container": "#ffdad6",
+            "inverse-surface": "#342f34", "on-secondary-fixed": "#28172c",
+            "on-secondary-container": "#a781ae", "on-tertiary": "#ffffff"
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          spacing: { "element-gap": "16px", "section-gap": "48px", "container-padding": "24px", "base": "8px" },
+          fontFamily: {
+            "display-lg": ["Playfair Display"], "display-mobile": ["Playfair Display"],
+            "body-lg": ["Montserrat"], "body-md": ["Montserrat"], "label-sm": ["Montserrat"], "headline-md": ["Playfair Display"]
+          },
+          fontSize: {
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "display-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.01em", fontWeight: "700" }],
+            "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "0.01em", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fff7fc;
+      overflow-x: hidden;
+      min-height: max(884px, 100dvh);
+    }
+
+    .paper-grain::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      pointer-events: none;
+      background-image: url("https://www.transparenttextures.com/patterns/felt.png");
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: translateY(-100px) translateX(15px);
+        opacity: 0;
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      animation: drift 6s linear infinite;
+    }
+
+    .letter-content {
+      scrollbar-width: thin;
+      scrollbar-color: #a781ae transparent;
+    }
+
+    .letter-content::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .letter-content::-webkit-scrollbar-thumb {
+      background-color: #a781ae;
+      border-radius: 10px;
+    }
+
+    /* ─── Entry animations ──────────────────────────── */
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleUp {
+      from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes dividerExpand {
+      from {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      to {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    .nav-anim {
+      opacity: 0;
+      animation: fadeDown 600ms cubic-bezier(0.16, 1, 0.3, 1) 50ms forwards;
+    }
+
+    .paper-anim {
+      opacity: 0;
+      animation: scaleUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+    }
+
+    .hdr-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards;
+    }
+
+    .div-anim {
+      opacity: 0;
+      animation: dividerExpand 400ms cubic-bezier(0.16, 1, 0.3, 1) 580ms forwards;
+      transform-origin: center;
+    }
+
+    .p1-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 550ms forwards;
+    }
+
+    .p2-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 680ms forwards;
+    }
+
+    .p3-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 810ms forwards;
+    }
+
+    .p4-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 940ms forwards;
+    }
+
+    .sig-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 1080ms forwards;
+    }
+
+    .foot-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 350ms forwards;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+
+  <main class="relative w-full max-w-[414px] h-[884px] overflow-hidden flex flex-col bg-surface shadow-2xl">
+
+    <!-- Sparkles -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <span class="sparkle text-[#a781ae] material-symbols-outlined"
+        style="top:20%;left:10%;font-size:10px;animation-delay:0s;">spark</span>
+      <span class="sparkle text-[#a781ae] material-symbols-outlined"
+        style="top:60%;left:80%;font-size:8px;animation-delay:2s;">spark</span>
+      <span class="sparkle text-[#a781ae] material-symbols-outlined"
+        style="top:40%;left:40%;font-size:12px;animation-delay:4s;">spark</span>
+      <span class="sparkle text-primary/30 material-symbols-outlined"
+        style="top:10%;left:70%;font-size:14px;animation-delay:1s;">favorite</span>
+    </div>
+
+    <!-- Top Navigation -->
+    <header
+      class="nav-anim flex justify-between items-center px-container-padding py-base w-full fixed top-0 z-50 bg-surface/10 backdrop-blur-md max-w-[414px]">
+      <a href="index.html"
+        class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform no-underline">arrow_back</a>
+      <h1 class="font-headline-md text-headline-md text-primary tracking-tight">Nuestro Primer Mes</h1>
+      <div class="w-6"></div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-[2px] bg-secondary/20 z-[60]">
+      <div class="h-full bg-[#a781ae] transition-all duration-1000 ease-out" style="width:25%"></div>
+    </div>
+
+    <!-- Letter Canvas -->
+    <section class="flex-1 mt-20 mb-24 px-6 flex flex-col items-center justify-center z-10">
+      <div
+        class="paper-anim paper-grain relative w-full h-full max-h-[663px] bg-white rounded-sm shadow-[0px_10px_30px_rgba(167,129,174,0.1)] p-8 flex flex-col overflow-hidden border-[0.5px] border-secondary/20">
+        <div class="absolute inset-4 border-[0.5px] border-[#a781ae]/30 pointer-events-none"></div>
+
+        <!-- Letter Header -->
+        <div class="relative z-10 text-center mb-6">
+          <h2 class="hdr-anim font-display-mobile text-[24px] text-primary italic mb-2">Para mi noviecita hermosa ::)
+          </h2>
+          <div class="div-anim w-12 h-[1px] bg-[#a781ae] mx-auto opacity-50"></div>
+        </div>
+
+        <!-- Letter Body -->
+        <div class="relative z-10 flex-1 overflow-y-auto letter-content pr-2">
+          <p class="p1-anim font-body-md text-on-surface-variant leading-relaxed text-justify mb-4">
+            Mi vida hermosa, quiero aprovechar este pequeño detallito para recordarte lo especial que eres para mí, y lo
+            increible que
+            han sido estos meses a tu lado. Porque a pesar que solo llevemos 1 mes (totalmente ilogico) de noviecitos,
+            nos conocemos hace mucho más
+            y no quiero menospreciar todo ese tiempo tan increible que hemos pasado juntos.
+          </p>
+          <p class="p2-anim font-body-md text-on-surface-variant leading-relaxed text-justify mb-4">
+            Recuerdo con mucho anhelo cada momento que hemos pasado, desde estar comiendo heladito hasta salir a que me
+            humillaras en
+            city park. Y es que a tu lado, cada instante se convierte en un recuerdo precioso que atesoro con todo mi
+            corazón.
+          </p>
+          <p class="p3-anim font-body-md text-on-surface-variant leading-relaxed text-justify mb-4">
+            Gracias por todos esos momentos graciosos donde no podemos parar de reir, por los abrazos que me hacen
+            sentir que el resto del mundo
+            no existe y que solo somos tu y yo, gracias por cada vez que me has hecho sentir escuchado y comprendido y
+            por esas llamdas que no tienen fin. En
+            resumen, gracias
+            por ser la mejor novia del mundo y por hacerme tan feliz
+          </p>
+          <p class="p4-anim font-body-md text-on-surface-variant leading-relaxed text-justify">
+            Le pido a Dios que sea solo el primero de muchos meses más juntos, y que siempre sin importar que, podamos
+            seguir el uno al lado del otro
+          </p>
+        </div>
+
+        <!-- Signature -->
+        <div class="sig-anim relative z-10 mt-8 text-right">
+          <p class="font-label-sm text-primary/60 uppercase tracking-[0.2em] mb-1">Te amo muchísimo</p>
+          <p class="font-display-mobile text-[28px] text-primary italic leading-none">- Miguel</p>
+          <div class="mt-2 text-[10px] font-label-sm text-secondary/40 tracking-widest uppercase italic">::)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="foot-anim fixed bottom-0 left-0 w-full h-24 flex items-center justify-center px-6 z-50 max-w-[414px]">
+      <button id="next-btn"
+        class="w-full max-w-[200px] h-12 bg-white border border-[#a781ae] flex items-center justify-center rounded-full hover:shadow-lg active:scale-95 transition-all duration-300 group">
+        <span class="font-label-sm text-primary uppercase tracking-[0.15em] mr-2">Seguir</span>
+        <span
+          class="material-symbols-outlined text-[18px] text-[#a781ae] group-hover:translate-x-1 transition-transform">chevron_right</span>
+      </button>
+    </footer>
+
+  </main>
+
+  <div class="fixed inset-0 -z-10 hidden md:block overflow-hidden">
+    <div class="absolute inset-0 bg-surface/40 backdrop-blur-3xl"></div>
+  </div>
+
+  <script>
+    function createParticle() {
+      const c = document.querySelector('.absolute.inset-0.z-0');
+      const p = document.createElement('span');
+      p.className = 'sparkle material-symbols-outlined';
+      p.textContent = 'favorite';
+      p.style.color = '#a781ae';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = '100%';
+      p.style.fontSize = (Math.random() * 8 + 4) + 'px';
+      p.style.opacity = '0.4';
+      p.style.animation = `drift ${Math.random() * 3 + 4}s linear forwards`;
+      c.appendChild(p);
+      setTimeout(() => p.remove(), 7000);
+    }
+    setInterval(createParticle, 2000);
+
+    function navigateTo(url) {
+      document.body.style.transition = 'opacity 450ms ease-in-out, transform 450ms cubic-bezier(0.4,0,1,1)';
+      document.body.style.opacity = '0';
+      document.body.style.transform = 'translateY(-14px)';
+      setTimeout(() => window.location.href = url, 430);
+    }
+    document.getElementById('next-btn').addEventListener('click', () => navigateTo('page3.html'));
+  </script>
+</body>
+
+</html>

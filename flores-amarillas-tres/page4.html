@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <title>Our Story</title>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff", "surface-tint": "#a781ae",
+            "inverse-on-surface": "#f7f0f5", "surface-variant": "#eee0ec",
+            "secondary-container": "#f1daef", "on-tertiary-container": "#5f5d62",
+            "outline": "#7e747c", "primary": "#a781ae", "tertiary-container": "#ebe8ef",
+            "error": "#ba1a1a", "tertiary-fixed-dim": "#cfcbd3", "tertiary": "#5e5e5c",
+            "secondary-fixed-dim": "#e9c3e9", "primary-fixed": "#f9d8ff", "on-error": "#ffffff",
+            "on-surface": "#1e1a1d", "outline-variant": "#cfc3cc", "on-tertiary-fixed": "#1b1c1a",
+            "primary-fixed-dim": "#f0b1f9", "secondary-fixed": "#f9d8ff", "surface-dim": "#e0d8de",
+            "on-secondary-fixed-variant": "#4d3d4d", "surface-container": "#f4ecf2",
+            "on-tertiary-fixed-variant": "#474744", "surface-bright": "#fff7fc",
+            "on-primary-fixed": "#2a172e", "surface-container-high": "#efe6ed",
+            "surface": "#fff7fc", "on-error-container": "#93000a", "secondary": "#a781ae",
+            "primary-container": "#f1daef", "on-surface-variant": "#4d444b",
+            "on-primary-fixed-variant": "#58415a", "on-secondary": "#ffffff",
+            "surface-container-highest": "#e9e1e7", "inverse-primary": "#f0b1f9",
+            "on-primary": "#ffffff", "background": "#fff7fc", "surface-container-low": "#faf1f8",
+            "tertiary-fixed": "#ebe8ef", "on-primary-container": "#58415a",
+            "on-background": "#1e1a1d", "error-container": "#ffdad6",
+            "inverse-surface": "#342f33", "on-secondary-fixed": "#2a172e",
+            "on-secondary-container": "#4d3d4d", "on-tertiary": "#ffffff"
+          },
+          borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+          spacing: { "element-gap": "16px", "section-gap": "48px", "container-padding": "24px", "base": "8px" },
+          fontFamily: {
+            "display-lg": ["Playfair Display"], "display-mobile": ["Playfair Display"],
+            "body-lg": ["Montserrat"], "body-md": ["Montserrat"], "label-sm": ["Montserrat"], "headline-md": ["Playfair Display"]
+          },
+          fontSize: {
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "display-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.01em", fontWeight: "700" }],
+            "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "0.01em", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background-color: #fff7fc;
+      min-height: max(884px, 100dvh);
+    }
+
+    .paper-texture {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .gradient-bg {
+      background: radial-gradient(circle at top, #ffffff 0%, #fff7fc 40%, #f1daef 100%);
+    }
+
+    .floating-heart {
+      position: absolute;
+      pointer-events: none;
+      animation: drift-up var(--duration) linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes drift-up {
+      0% {
+        transform: translateY(100vh) scale(0.5) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.6;
+      }
+
+      90% {
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .main-heart-animation {
+      animation: pulse-gentle 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-gentle {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    /* ─── Entry animations ──────────────────────────── */
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popInHeart {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      55% {
+        transform: scale(1.08);
+      }
+
+      75% {
+        transform: scale(0.97);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes sparkleAppear {
+      from {
+        opacity: 0;
+        transform: scale(0) rotate(-20deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .nav-anim {
+      opacity: 0;
+      animation: fadeDown 600ms cubic-bezier(0.16, 1, 0.3, 1) 50ms forwards;
+    }
+
+    .heart-anim {
+      opacity: 0;
+      animation: popInHeart 1000ms cubic-bezier(0.34, 1.56, 0.64, 1) 200ms forwards;
+    }
+
+    .sp1-anim {
+      opacity: 0;
+      animation: sparkleAppear 500ms cubic-bezier(0.34, 1.56, 0.64, 1) 800ms forwards;
+    }
+
+    .sp2-anim {
+      opacity: 0;
+      animation: sparkleAppear 500ms cubic-bezier(0.34, 1.56, 0.64, 1) 950ms forwards;
+    }
+
+    .title-anim {
+      opacity: 0;
+      animation: fadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 600ms forwards;
+    }
+
+    .sub-anim {
+      opacity: 0;
+      animation: fadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 800ms forwards;
+    }
+
+    .foot-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 400ms forwards;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-surface-dim">
+
+  <div class="paper-texture"></div>
+
+  <main
+    class="relative w-full max-w-[414px] h-[884px] bg-surface flex flex-col items-center justify-between overflow-hidden shadow-2xl gradient-bg">
+
+    <!-- Progress Bar (paso 4 de 5) -->
+    <div class="fixed top-0 left-0 w-full h-[2px] bg-secondary/20 z-[60]">
+      <div class="h-full bg-[#a781ae] transition-all duration-1000 ease-out" style="width:80%"></div>
+    </div>
+
+    <!-- Top Navigation -->
+    <header
+      class="nav-anim flex justify-between items-center px-container-padding py-base w-full fixed top-0 z-50 bg-white/10 backdrop-blur-md max-w-[414px]">
+      <a href="page3.html"
+        class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform no-underline">arrow_back</a>
+      <h1 class="font-headline-md text-headline-md text-primary">Nuestro Primer Mes</h1>
+      <div class="w-6"></div>
+    </header>
+
+    <!-- Particle Canvas -->
+    <div class="absolute inset-0 z-10 pointer-events-none" id="particle-container"></div>
+
+    <!-- Central Content -->
+    <div class="flex-1 flex flex-col items-center justify-center px-container-padding text-center z-20">
+
+      <!-- Heart Illustration -->
+      <div class="relative mb-section-gap">
+        <div
+          class="heart-anim w-64 h-64 flex items-center justify-center bg-white/40 backdrop-blur-lg rounded-full shadow-[0px_10px_30px_rgba(167,129,174,0.1)] border border-primary/20 main-heart-animation">
+          <span class="material-symbols-outlined text-[120px] text-primary"
+            style="font-variation-settings:'FILL' 1;">favorite</span>
+        </div>
+
+
+      </div>
+
+      <!-- Text -->
+      <div class="space-y-4">
+        <h2 class="title-anim font-display-mobile text-display-mobile text-primary tracking-tight px-4 leading-tight">
+          Gracias por este primer mes.
+        </h2>
+        <p class="sub-anim font-body-lg text-body-lg text-on-surface-variant max-w-[280px] mx-auto italic">
+          Espero que sea el primero de muchísimos más
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer Action -->
+    <div class="foot-anim w-full px-container-padding pb-24 z-30 flex flex-col items-center">
+      <button id="next-btn"
+        class="w-full max-w-[200px] h-12 bg-white border border-[#a781ae] flex items-center justify-center rounded-full hover:shadow-lg active:scale-95 transition-all duration-300 group mx-auto">
+        <span class="font-label-sm text-primary uppercase tracking-[0.15em] mr-2">Seguir</span>
+        <span
+          class="material-symbols-outlined text-[18px] text-[#a781ae] group-hover:translate-x-1 transition-transform">chevron_right</span>
+      </button>
+    </div>
+
+
+
+  </main>
+
+  <script>
+    function createParticles() {
+      const container = document.getElementById('particle-container');
+      const types = ['favorite', 'spa', 'circle'];
+      const colors = ['#a781ae', '#f1daef', '#f0b1f9', '#cfc3cc'];
+      function spawn() {
+        const el = document.createElement('span');
+        const type = types[Math.floor(Math.random() * types.length)];
+        el.className = 'material-symbols-outlined floating-heart';
+        el.innerText = type;
+        el.style.fontSize = `${Math.random() * 20 + 10}px`;
+        el.style.left = `${Math.random() * 100}%`;
+        el.style.color = colors[Math.floor(Math.random() * colors.length)];
+        el.style.setProperty('--duration', `${Math.random() * 8 + 6}s`);
+        el.style.animationDelay = `-${Math.random() * 5}s`;
+        if (type === 'favorite') el.style.fontVariationSettings = "'FILL' 1";
+        container.appendChild(el);
+        setTimeout(() => el.remove(), 13000);
+      }
+      for (let i = 0; i < 15; i++) spawn();
+      setInterval(spawn, 800);
+    }
+    document.addEventListener('DOMContentLoaded', createParticles);
+
+    function navigateTo(url) {
+      document.body.style.transition = 'opacity 450ms ease-in-out, transform 450ms cubic-bezier(0.4,0,1,1)';
+      document.body.style.opacity = '0';
+      document.body.style.transform = 'translateY(-14px)';
+      setTimeout(() => window.location.href = url, 430);
+    }
+    document.getElementById('next-btn').addEventListener('click', () => navigateTo('page5.html'));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <title>Una sorpresa para ti</title>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#a781ae",
+            "inverse-on-surface": "#f8eff3",
+            "surface-variant": "#eee0e6",
+            "secondary-container": "#f0dfff",
+            "on-tertiary-container": "#554e5a",
+            "outline": "#7e747c",
+            "primary": "#a781ae",
+            "tertiary-container": "#f4e9f9",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#cebed1",
+            "tertiary": "#6e5d71",
+            "secondary-fixed-dim": "#d0bed4",
+            "primary-fixed": "#fbd7ff",
+            "on-error": "#ffffff",
+            "on-surface": "#1f1a1d",
+            "outline-variant": "#d0c3ca",
+            "on-tertiary-fixed": "#271a2b",
+            "primary-fixed-dim": "#e9b9f3",
+            "secondary-fixed": "#ebdaef",
+            "surface-dim": "#e0d8de",
+            "on-secondary-fixed-variant": "#4d3e52",
+            "surface-container": "#f4e9f0",
+            "on-tertiary-fixed-variant": "#554359",
+            "surface-bright": "#fff7fc",
+            "on-primary-fixed": "#2c1533",
+            "surface-container-high": "#eee3eb",
+            "surface": "#fff7fc",
+            "on-error-container": "#93000a",
+            "secondary": "#6a596e",
+            "primary-container": "#f8d8f8",
+            "on-surface-variant": "#4d444b",
+            "on-primary-fixed-variant": "#5f3d67",
+            "on-secondary": "#ffffff",
+            "surface-container-highest": "#e8dee5",
+            "inverse-primary": "#e9b9f3",
+            "on-primary": "#ffffff",
+            "background": "#fff7fc",
+            "surface-container-low": "#faf1f8",
+            "tertiary-fixed": "#ebdaef",
+            "on-primary-container": "#3d2243",
+            "on-background": "#1f1a1d",
+            "error-container": "#ffdad6",
+            "inverse-surface": "#342f32",
+            "on-secondary-fixed": "#241729",
+            "on-secondary-container": "#241729",
+            "on-tertiary": "#ffffff"
+          },
+          borderRadius: { "DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          spacing: { "element-gap": "16px", "section-gap": "48px", "container-padding": "24px", "base": "8px" },
+          fontFamily: {
+            "display-lg": ["Playfair Display"], "display-mobile": ["Playfair Display"],
+            "body-lg": ["Montserrat"], "body-md": ["Montserrat"], "label-sm": ["Montserrat"], "headline-md": ["Playfair Display"]
+          },
+          fontSize: {
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "display-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.01em", fontWeight: "700" }],
+            "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "0.01em", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #fff7fc;
+      min-height: max(884px, 100dvh);
+    }
+
+    .canvas-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #ffffff 0%, #f4e9f9 100%);
+      position: relative;
+    }
+
+    @media (min-width: 1024px) {
+      body {
+        background: #e0d8de;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .canvas-container {
+        width: 414px;
+        height: 896px;
+        border-radius: 40px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+      }
+    }
+
+    .paper-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+    }
+
+    .floating-heart {
+      position: absolute;
+      color: #a781ae;
+      pointer-events: none;
+      animation: drift var(--duration) ease-in-out infinite;
+      opacity: 0.4;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background-color: #a781ae;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: flash var(--duration) linear infinite;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 0.4;
+      }
+
+      100% {
+        transform: translateY(-100vh) translateX(var(--x-end)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes flash {
+
+      0%,
+      100% {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+      }
+    }
+
+    .gift-box-shadow {
+      filter: drop-shadow(0px 20px 40px rgba(167, 129, 174, 0.2));
+    }
+
+    /* ─── Entry animations ──────────────────────────── */
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.72);
+      }
+
+      60% {
+        transform: scale(1.06);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes dividerExpand {
+      from {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      to {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    .nav-anim {
+      opacity: 0;
+      animation: fadeDown 600ms cubic-bezier(0.16, 1, 0.3, 1) 50ms forwards;
+    }
+
+    .gift-anim {
+      opacity: 0;
+      animation: popIn 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 180ms forwards;
+    }
+
+    .text-anim {
+      opacity: 0;
+      animation: fadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 550ms forwards;
+    }
+
+    .div-anim {
+      opacity: 0;
+      animation: dividerExpand 500ms cubic-bezier(0.16, 1, 0.3, 1) 700ms forwards;
+      transform-origin: center;
+    }
+
+    .btn-anim {
+      opacity: 0;
+      animation: fadeUp 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 800ms forwards;
+    }
+
+    .bnav-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 900ms forwards;
+    }
+  </style>
+</head>
+
+<body class="bg-surface">
+  <div class="canvas-container">
+
+    <div class="paper-grain"></div>
+    <div class="absolute inset-0 pointer-events-none overflow-hidden" id="particle-container"></div>
+
+    <!-- Top Navigation -->
+    <nav
+      class="nav-anim flex justify-between items-center px-container-padding py-base w-full fixed top-0 z-50 bg-surface/20 backdrop-blur-md">
+      <a href="../index.html"
+        class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform cursor-pointer no-underline">arrow_back</a>
+      <h1 class="font-display-mobile text-headline-md text-primary tracking-tight">Nuestro Primer Mes</h1>
+      <div></div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex flex-col items-center justify-center w-full px-container-padding text-center z-10">
+
+      <!-- Gift Box -->
+      <div class="gift-anim relative mb-section-gap group transition-transform duration-700 hover:scale-105">
+        <div class="absolute -inset-4 bg-primary-fixed-dim/20 blur-3xl rounded-full"></div>
+        <img alt="Regalo Sorpresa" class="w-64 h-64 object-contain gift-box-shadow relative z-10 rounded-2xl"
+          src="https://static.vecteezy.com/system/resources/previews/036/255/321/non_2x/pink-heart-cartoon-free-png.png" />
+      </div>
+
+      <!-- Message -->
+      <div class="space-y-element-gap">
+        <p class="text-anim font-display-mobile text-headline-md text-primary leading-relaxed">
+          Una pequeña sorpresa para ti
+        </p>
+        <div class="div-anim w-12 h-[1px] bg-primary/40 mx-auto"></div>
+      </div>
+
+      <!-- Button -->
+      <div class="btn-anim mt-section-gap">
+        <button id="open-btn"
+          class="bg-primary text-on-primary px-12 py-4 rounded-full font-label-sm text-label-sm tracking-widest uppercase transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95">
+          Abrir regalo
+        </button>
+      </div>
+
+    </main>
+
+
+  </div>
+
+  <script>
+    const container = document.getElementById('particle-container');
+    function createParticle(type) {
+      const el = document.createElement('div');
+      if (type === 'heart') {
+        el.className = 'floating-heart material-symbols-outlined';
+        el.innerText = 'favorite';
+        el.style.fontSize = Math.random() * 12 + 8 + 'px';
+      } else {
+        el.className = 'sparkle';
+      }
+      const dur = Math.random() * 5 + 5;
+      const delay = Math.random() * 5;
+      el.style.left = Math.random() * 100 + '%';
+      el.style.bottom = '-5%';
+      el.style.setProperty('--duration', dur + 's');
+      el.style.setProperty('--x-end', (Math.random() - 0.5) * 100 + 'px');
+      el.style.animationDelay = delay + 's';
+      container.appendChild(el);
+      setTimeout(() => el.remove(), (dur + delay) * 1000);
+    }
+    for (let i = 0; i < 15; i++) { createParticle('heart'); createParticle('sparkle'); }
+    setInterval(() => createParticle('heart'), 2000);
+    setInterval(() => createParticle('sparkle'), 1500);
+
+    function navigateTo(url) {
+      document.body.style.transition = 'opacity 450ms ease-in-out, transform 450ms cubic-bezier(0.4,0,1,1)';
+      document.body.style.opacity = '0';
+      document.body.style.transform = 'translateY(-14px)';
+      setTimeout(() => window.location.href = url, 430);
+    }
+
+    document.getElementById('open-btn').addEventListener('click', () => navigateTo('page2.html'));
+  </script>
+</body>
+
+</html>

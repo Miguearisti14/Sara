@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <title>Nuestros momentos</title>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff", "surface-tint": "#a781ae",
+            "inverse-on-surface": "#f8f0f5", "surface-variant": "#eee1eb",
+            "secondary-container": "#f1e1f3", "on-tertiary-container": "#625f62",
+            "outline": "#8a7485", "primary": "#8a6691", "tertiary-container": "#e9e1e9",
+            "error": "#ba1a1a", "tertiary-fixed-dim": "#cfc3cf", "tertiary": "#6b586e",
+            "secondary-fixed-dim": "#d2b7d6", "primary-fixed": "#f9d8fb", "on-error": "#ffffff",
+            "on-surface": "#1f1a1f", "outline-variant": "#d2c3cf", "on-tertiary-fixed": "#1e1a1e",
+            "primary-fixed-dim": "#ddbde2", "secondary-fixed": "#f2dafa", "surface-dim": "#e0d8de",
+            "on-secondary-fixed-variant": "#544059", "surface-container": "#f5ebf2",
+            "on-tertiary-fixed-variant": "#4d444d", "surface-bright": "#fff7fc",
+            "on-primary-fixed": "#2d1631", "surface-container-high": "#f0e5ec",
+            "surface": "#fff7fc", "on-error-container": "#93000a", "secondary": "#a781ae",
+            "primary-container": "#f5d9f7", "on-surface-variant": "#4f444c",
+            "on-primary-fixed-variant": "#604164", "on-secondary": "#ffffff",
+            "surface-container-highest": "#e9dee5", "inverse-primary": "#e2bced",
+            "on-primary": "#ffffff", "background": "#fff7fc", "surface-container-low": "#faf1f8",
+            "tertiary-fixed": "#ede2ed", "on-primary-container": "#6e5672",
+            "on-background": "#1f1a1f", "error-container": "#ffdad6",
+            "inverse-surface": "#342f34", "on-secondary-fixed": "#28172c",
+            "on-secondary-container": "#a781ae", "on-tertiary": "#ffffff"
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          spacing: { "element-gap": "16px", "section-gap": "48px", "container-padding": "24px", "base": "8px" },
+          fontFamily: {
+            "display-lg": ["Playfair Display"], "display-mobile": ["Playfair Display"],
+            "body-lg": ["Montserrat"], "body-md": ["Montserrat"], "label-sm": ["Montserrat"], "headline-md": ["Playfair Display"]
+          },
+          fontSize: {
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "display-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.01em", fontWeight: "700" }],
+            "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "0.01em", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fff7fc;
+      overflow-x: hidden;
+      min-height: max(884px, 100dvh);
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: translateY(-120px) translateX(10px);
+        opacity: 0;
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      animation: drift 6s linear infinite;
+    }
+
+    /* Polaroid tilts */
+    .tilt-l {
+      transform: rotate(-2deg);
+    }
+
+    .tilt-r {
+      transform: rotate(2deg);
+    }
+
+    .tilt-ll {
+      transform: rotate(-4deg);
+    }
+
+    .tilt-rr {
+      transform: rotate(3.5deg);
+    }
+
+    .photo-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .photo-card:active {
+      transform: rotate(0deg) scale(1.04) !important;
+      box-shadow: 0 20px 40px rgba(167, 129, 174, 0.25);
+    }
+
+    .gallery-scroll {
+      scrollbar-width: none;
+    }
+
+    .gallery-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ─── Entry animations ──────────────────────────── */
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-36px) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(36px) translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+      }
+    }
+
+    @keyframes popInCard {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.90);
+      }
+
+      65% {
+        transform: translateY(-4px) scale(1.02);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes dividerExpand {
+      from {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      to {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    .nav-anim {
+      opacity: 0;
+      animation: fadeDown 600ms cubic-bezier(0.16, 1, 0.3, 1) 50ms forwards;
+    }
+
+    .hdr-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+    }
+
+    .div-anim {
+      opacity: 0;
+      animation: dividerExpand 400ms cubic-bezier(0.16, 1, 0.3, 1) 320ms forwards;
+      transform-origin: center;
+    }
+
+    .c1-anim {
+      opacity: 0;
+      animation: popInCard 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 300ms forwards;
+    }
+
+    .c2l-anim {
+      opacity: 0;
+      animation: slideInLeft 600ms cubic-bezier(0.16, 1, 0.3, 1) 450ms forwards;
+    }
+
+    .c2r-anim {
+      opacity: 0;
+      animation: slideInRight 600ms cubic-bezier(0.16, 1, 0.3, 1) 520ms forwards;
+    }
+
+    .c3-anim {
+      opacity: 0;
+      animation: popInCard 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 620ms forwards;
+    }
+
+    .c4l-anim {
+      opacity: 0;
+      animation: slideInLeft 600ms cubic-bezier(0.16, 1, 0.3, 1) 760ms forwards;
+    }
+
+    .c4r-anim {
+      opacity: 0;
+      animation: slideInRight 600ms cubic-bezier(0.16, 1, 0.3, 1) 840ms forwards;
+    }
+
+    .foot-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 350ms forwards;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+
+  <main class="relative w-full max-w-[414px] h-[884px] overflow-hidden flex flex-col bg-surface shadow-2xl">
+
+    <!-- Sparkles -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <span class="sparkle text-[#a781ae] material-symbols-outlined"
+        style="top:15%;left:8%;font-size:9px;animation-delay:0s;">spark</span>
+      <span class="sparkle text-[#a781ae] material-symbols-outlined"
+        style="top:55%;left:85%;font-size:7px;animation-delay:3s;">spark</span>
+      <span class="sparkle text-primary/30 material-symbols-outlined"
+        style="top:5%;left:65%;font-size:13px;animation-delay:1.5s;">favorite</span>
+    </div>
+
+    <!-- Top Navigation -->
+    <header
+      class="nav-anim flex justify-between items-center px-container-padding py-base w-full fixed top-0 z-50 bg-surface/10 backdrop-blur-md max-w-[414px]">
+      <a href="page2.html"
+        class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform no-underline">arrow_back</a>
+      <h1 class="font-headline-md text-headline-md text-primary tracking-tight">Nuestro Primer Mes</h1>
+      <div class="w-6"></div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-[2px] bg-secondary/20 z-[60]">
+      <div class="h-full bg-[#a781ae] transition-all duration-1000 ease-out" style="width:50%"></div>
+    </div>
+
+    <!-- Gallery Content -->
+    <section class="flex-1 mt-16 mb-24 overflow-y-auto gallery-scroll z-10 px-6 py-4">
+
+      <!-- Section Header -->
+      <div class="text-center mb-6">
+        <h2 class="hdr-anim font-display-mobile text-[22px] text-primary italic mb-1">Nuestras fotitos</h2>
+        <div class="div-anim w-10 h-[1px] bg-[#a781ae] mx-auto opacity-40"></div>
+      </div>
+
+      <!-- Fila 1: foto grande centrada -->
+      <div class="flex justify-center mb-4">
+        <div class="c1-anim photo-card tilt-l bg-white p-2 pb-8 shadow-[0_4px_20px_rgba(167,129,174,0.15)] w-[220px]">
+          <div
+            class="w-full h-[200px] bg-secondary/10 flex flex-col items-center justify-center rounded-[2px] overflow-hidden">
+            <img src="img/1.jpeg" alt="Momento 1" class="w-full h-full object-cover"
+              onerror="this.parentElement.innerHTML=placeholderHTML('foto1.jpg')" />
+          </div>
+          <p class="font-label-sm text-primary/50 text-center mt-3 uppercase tracking-widest text-[9px]">Tu fondito</p>
+        </div>
+      </div>
+
+      <!-- Fila 2: dos fotos -->
+      <div class="flex justify-center gap-3 mb-4">
+        <div class="c2l-anim photo-card tilt-ll bg-white p-2 pb-6 shadow-[0_4px_20px_rgba(167,129,174,0.15)] w-[155px]">
+          <div
+            class="w-full h-[155px] bg-secondary/10 flex flex-col items-center justify-center rounded-[2px] overflow-hidden">
+            <img src="img/2.jpeg" alt="Momento 2" class="w-full h-full object-cover"
+              onerror="this.parentElement.innerHTML=placeholderHTML('foto2.jpg')" />
+          </div>
+          <p class="font-label-sm text-primary/50 text-center mt-2 uppercase tracking-widest text-[9px]">Juntos</p>
+        </div>
+        <div class="c2r-anim photo-card tilt-rr bg-white p-2 pb-6 shadow-[0_4px_20px_rgba(167,129,174,0.15)] w-[155px]">
+          <div
+            class="w-full h-[155px] bg-secondary/10 flex flex-col items-center justify-center rounded-[2px] overflow-hidden">
+            <img src="img/3.jpeg" alt="Momento 3" class="w-full h-full object-cover"
+              onerror="this.parentElement.innerHTML=placeholderHTML('foto3.jpg')" />
+          </div>
+          <p class="font-label-sm text-primary/50 text-center mt-2 uppercase tracking-widest text-[9px]">Siempre</p>
+        </div>
+      </div>
+
+      <!-- Fila 3: foto grande -->
+      <div class="flex justify-center mb-4">
+        <div class="c3-anim photo-card tilt-r bg-white p-2 pb-8 shadow-[0_4px_20px_rgba(167,129,174,0.15)] w-[220px]">
+          <div
+            class="w-full h-[200px] bg-secondary/10 flex flex-col items-center justify-center rounded-[2px] overflow-hidden">
+            <img src="img/4.jpeg" alt="Momento 4" class="w-full h-full object-cover"
+              onerror="this.parentElement.innerHTML=placeholderHTML('foto4.jpg')" />
+          </div>
+          <p class="font-label-sm text-primary/50 text-center mt-3 uppercase tracking-widest text-[9px]">Tu cumple
+          </p>
+        </div>
+      </div>
+
+      <!-- Fila 4: dos fotos -->
+      <div class="flex justify-center gap-3 mb-6">
+        <div class="c4l-anim photo-card tilt-r bg-white p-2 pb-6 shadow-[0_4px_20px_rgba(167,129,174,0.15)] w-[155px]">
+          <div
+            class="w-full h-[155px] bg-secondary/10 flex flex-col items-center justify-center rounded-[2px] overflow-hidden">
+            <img src="img/5.jpeg" alt="Momento 5" class="w-full h-full object-cover"
+              onerror="this.parentElement.innerHTML=placeholderHTML('foto5.jpg')" />
+          </div>
+          <p class="font-label-sm text-primary/50 text-center mt-2 uppercase tracking-widest text-[9px]">Contigo</p>
+        </div>
+        <div class="c4r-anim photo-card tilt-l bg-white p-2 pb-6 shadow-[0_4px_20px_rgba(167,129,174,0.15)] w-[155px]">
+          <div
+            class="w-full h-[155px] bg-secondary/10 flex flex-col items-center justify-center rounded-[2px] overflow-hidden">
+            <img src="img/6.jpeg" alt="Momento 6" class="w-full h-full object-cover"
+              onerror="this.parentElement.innerHTML=placeholderHTML('foto6.jpg')" />
+          </div>
+          <p class="font-label-sm text-primary/50 text-center mt-2 uppercase tracking-widest text-[9px]">Para siempre
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="foot-anim fixed bottom-0 left-0 w-full h-24 flex items-center justify-center px-6 z-50 max-w-[414px]">
+      <button id="next-btn"
+        class="w-full max-w-[200px] h-12 bg-white border border-[#a781ae] flex items-center justify-center rounded-full hover:shadow-lg active:scale-95 transition-all duration-300 group">
+        <span class="font-label-sm text-primary uppercase tracking-[0.15em] mr-2">Seguir</span>
+        <span
+          class="material-symbols-outlined text-[18px] text-[#a781ae] group-hover:translate-x-1 transition-transform">chevron_right</span>
+      </button>
+    </footer>
+
+  </main>
+
+  <div class="fixed inset-0 -z-10 hidden md:block overflow-hidden">
+    <div class="absolute inset-0 bg-surface/40 backdrop-blur-3xl"></div>
+  </div>
+
+  <script>
+    function placeholderHTML(name) {
+      return `<div class="w-full h-full flex flex-col items-center justify-center gap-2 text-secondary/40">
+      <span class="material-symbols-outlined text-[32px]">add_photo_alternate</span>
+      <span style="font-family:Montserrat;font-size:10px;letter-spacing:0.05em;">${name}</span>
+    </div>`;
+    }
+
+    function createParticle() {
+      const c = document.querySelector('.absolute.inset-0.z-0');
+      const p = document.createElement('span');
+      p.className = 'sparkle material-symbols-outlined';
+      p.textContent = 'favorite'; p.style.color = '#a781ae';
+      p.style.left = Math.random() * 100 + '%'; p.style.top = '100%';
+      p.style.fontSize = (Math.random() * 8 + 4) + 'px'; p.style.opacity = '0.3';
+      p.style.animation = `drift ${Math.random() * 3 + 4}s linear forwards`;
+      c.appendChild(p);
+      setTimeout(() => p.remove(), 7000);
+    }
+    setInterval(createParticle, 2500);
+
+    function navigateTo(url) {
+      document.body.style.transition = 'opacity 450ms ease-in-out, transform 450ms cubic-bezier(0.4,0,1,1)';
+      document.body.style.opacity = '0';
+      document.body.style.transform = 'translateY(-14px)';
+      setTimeout(() => window.location.href = url, 430);
+    }
+    document.getElementById('next-btn').addEventListener('click', () => navigateTo('page4.html'));
+  </script>
+</body>
+
+</html>

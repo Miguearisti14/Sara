@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Our Story - Countdown</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#a781ae", "on-primary": "#ffffff", "primary-container": "#f8d7da",
+            "on-primary-container": "#4e3653", "secondary": "#8c6e91", "on-secondary": "#ffffff",
+            "secondary-container": "#f5e6f7", "on-secondary-container": "#352438",
+            "tertiary": "#8c7f91", "on-tertiary": "#ffffff", "tertiary-container": "#f0eef2",
+            "on-tertiary-container": "#363038", "error": "#ba1a1a", "on-error": "#ffffff",
+            "error-container": "#ffdad6", "on-error-container": "#93000a",
+            "background": "#fff7fc", "on-background": "#201a1f",
+            "surface": "#fff7fc", "on-surface": "#201a1f",
+            "surface-variant": "#eee0ea", "on-surface-variant": "#4e444d",
+            "outline": "#80747d", "outline-variant": "#d2c3cd",
+            "inverse-surface": "#352e34", "inverse-on-surface": "#faedf6",
+            "inverse-primary": "#eeb4f7", "surface-dim": "#e0d8de",
+            "surface-bright": "#fff7fc", "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#faf1f8", "surface-container": "#f4ebf2",
+            "surface-container-high": "#eee6ec", "surface-container-highest": "#e8e0e7"
+          },
+          borderRadius: { "DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "1rem", "full": "9999px" },
+          spacing: { "element-gap": "16px", "section-gap": "48px", "container-padding": "24px", "base": "8px" },
+          fontFamily: {
+            "display-lg": ["Playfair Display"], "display-mobile": ["Playfair Display"],
+            "body-lg": ["Montserrat"], "body-md": ["Montserrat"], "label-sm": ["Montserrat"], "headline-md": ["Playfair Display"]
+          },
+          fontSize: {
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "display-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.01em", fontWeight: "700" }],
+            "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "0.01em", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fff7fc;
+      overflow: hidden;
+      position: relative;
+      min-height: max(884px, 100dvh);
+    }
+
+    .paper-overlay {
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+      z-index: 10;
+    }
+
+    .star-sparkle {
+      position: absolute;
+      background: #a781ae;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: drift var(--duration) linear infinite, twinkle var(--twinkle-duration) ease-in-out infinite;
+    }
+
+    @keyframes drift {
+      from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+
+      to {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+      }
+    }
+
+    .countdown-circle-svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring-circle {
+      transition: stroke-dashoffset 0.35s;
+      transform-origin: 50% 50%;
+      stroke: #a781ae;
+      stroke-width: 1.5px;
+      opacity: 0.6;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* ─── Entry animations ──────────────────────────── */
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleInCircle {
+      0% {
+        opacity: 0;
+        transform: scale(0.7) rotate(-8deg);
+      }
+
+      60% {
+        transform: scale(1.04) rotate(2deg);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes countCellPop {
+      0% {
+        opacity: 0;
+        transform: translateY(16px) scale(0.8);
+      }
+
+      65% {
+        transform: translateY(-4px) scale(1.06);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .nav-anim {
+      opacity: 0;
+      animation: fadeDown 600ms cubic-bezier(0.16, 1, 0.3, 1) 50ms forwards;
+    }
+
+    .title-anim {
+      opacity: 0;
+      animation: fadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
+    }
+
+    .circle-anim {
+      opacity: 0;
+      animation: scaleInCircle 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 400ms forwards;
+    }
+
+    .cd1-anim {
+      opacity: 0;
+      animation: countCellPop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 750ms forwards;
+    }
+
+    .cd2-anim {
+      opacity: 0;
+      animation: countCellPop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 850ms forwards;
+    }
+
+    .cd3-anim {
+      opacity: 0;
+      animation: countCellPop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 950ms forwards;
+    }
+
+    .cd4-anim {
+      opacity: 0;
+      animation: countCellPop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 1050ms forwards;
+    }
+
+    .btn-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 700ms forwards;
+    }
+
+    .sub-anim {
+      opacity: 0;
+      animation: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 1100ms forwards;
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen text-on-surface p-0 m-0">
+
+  <div class="paper-overlay"></div>
+  <div class="fixed inset-0 overflow-hidden pointer-events-none" id="sparkle-canvas"></div>
+
+  <!-- Progress Bar (100% — última página) -->
+  <div class="fixed top-0 left-0 w-full h-[2px] bg-secondary/20 z-[60]">
+    <div class="h-full bg-[#a781ae] transition-all duration-1000 ease-out" style="width:100%"></div>
+  </div>
+
+  <!-- Top App Bar -->
+  <header
+    class="nav-anim flex justify-between items-center px-container-padding py-base w-full fixed top-0 z-50 bg-surface/30 backdrop-blur-md border-b border-outline-variant/20">
+    <a href="page4.html" class="flex items-center no-underline">
+      <span class="material-symbols-outlined text-primary"
+        style="font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;">arrow_back</span>
+    </a>
+    <div class="flex items-center gap-2">
+
+      <h1 class="font-headline-md text-headline-md text-primary tracking-tight">Nuestro Primer Mes</h1>
+    </div>
+    <div class="w-6"></div>
+  </header>
+
+  <!-- Main Content -->
+  <main
+    class="relative z-20 flex flex-col items-center justify-center w-full max-w-[414px] px-container-padding text-center h-screen">
+
+    <!-- Title -->
+    <h1 class="title-anim font-headline-md text-headline-md text-primary mb-section-gap leading-relaxed px-4">
+      Ya quiero que llegue nuestro siguiente mes juntos
+    </h1>
+
+    <!-- Circular Countdown -->
+    <div class="circle-anim relative w-72 h-72 flex items-center justify-center mb-section-gap">
+      <svg class="countdown-circle-svg absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+        <circle class="text-primary/10 stroke-current" cx="50" cy="50" fill="transparent" r="48" stroke-width="0.5" />
+        <circle class="progress-ring-circle" cx="50" cy="50" fill="transparent" id="progress-ring" r="48"
+          stroke-dasharray="301.59" stroke-dashoffset="301.59" />
+      </svg>
+      <div class="flex flex-col items-center justify-center space-y-4">
+        <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+          <div class="cd1-anim flex flex-col items-center">
+            <span class="font-display-lg text-[40px] text-primary leading-none font-light" id="days">00</span>
+            <span class="font-label-sm text-on-surface-variant/60 uppercase tracking-[0.2em] mt-1">Días</span>
+          </div>
+          <div class="cd2-anim flex flex-col items-center">
+            <span class="font-display-lg text-[40px] text-primary leading-none font-light" id="hours">00</span>
+            <span class="font-label-sm text-on-surface-variant/60 uppercase tracking-[0.2em] mt-1">Horas</span>
+          </div>
+          <div class="cd3-anim flex flex-col items-center">
+            <span class="font-display-lg text-[40px] text-primary leading-none font-light" id="minutes">00</span>
+            <span class="font-label-sm text-on-surface-variant/60 uppercase tracking-[0.2em] mt-1">Mins</span>
+          </div>
+          <div class="cd4-anim flex flex-col items-center">
+            <span class="font-display-lg text-[40px] text-primary leading-none font-light" id="seconds">00</span>
+            <span class="font-label-sm text-on-surface-variant/60 uppercase tracking-[0.2em] mt-1">Segs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="mt-element-gap flex flex-col items-center">
+      <button id="close-btn"
+        class="btn-anim px-8 py-3 bg-white border border-primary/30 rounded-full shadow-[0px_10px_30px_rgba(167,129,174,0.1)] hover:bg-surface-container-low hover:-translate-y-1 active:scale-95 transition-all duration-300">
+        <span class="font-label-sm text-primary uppercase tracking-widest">Volver al inicio</span>
+      </button>
+
+    </div>
+
+  </main>
+
+  <script>
+    function createSparkles() {
+      const container = document.getElementById('sparkle-canvas');
+      for (let i = 0; i < 40; i++) {
+        const s = document.createElement('div');
+        s.className = 'star-sparkle';
+        const size = Math.random() * 3 + 1;
+        s.style.width = `${size}px`;
+        s.style.height = `${size}px`;
+        s.style.left = `${Math.random() * 100}%`;
+        s.style.top = '100vh';
+        s.style.setProperty('--duration', `${Math.random() * 10 + 10}s`);
+        s.style.animationDelay = `${Math.random() * -20}s`;
+        s.style.setProperty('--twinkle-duration', `${Math.random() * 3 + 2}s`);
+        container.appendChild(s);
+      }
+    }
+
+    function updateCountdown() {
+      // ═══════════════════════════════════════════════════════
+      // FECHA OBJETIVO — cambia esta fecha a la del próximo mes
+      // ═══════════════════════════════════════════════════════
+      const targetDate = new Date('2026-07-17');
+      targetDate.setHours(0, 0, 0, 0);
+
+      const circle = document.getElementById('progress-ring');
+      const circumference = 2 * Math.PI * circle.r.baseVal.value;
+
+      const timer = setInterval(() => {
+        const distance = targetDate - Date.now();
+        if (distance <= 0) {
+          clearInterval(timer);
+          ['days', 'hours', 'minutes', 'seconds'].forEach(id => document.getElementById(id).innerText = '00');
+          circle.style.strokeDashoffset = 0;
+          return;
+        }
+        const d = Math.floor(distance / 86400000);
+        const h = Math.floor((distance % 86400000) / 3600000);
+        const m = Math.floor((distance % 3600000) / 60000);
+        const s = Math.floor((distance % 60000) / 1000);
+
+        document.getElementById('days').innerText = String(d).padStart(2, '0');
+        document.getElementById('hours').innerText = String(h).padStart(2, '0');
+        document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+        document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+
+        circle.style.strokeDashoffset = circumference - (s / 60) * circumference;
+      }, 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      createSparkles();
+      updateCountdown();
+    });
+
+    function navigateTo(url) {
+      document.body.style.transition = 'opacity 450ms ease-in-out, transform 450ms cubic-bezier(0.4,0,1,1)';
+      document.body.style.opacity = '0';
+      document.body.style.transform = 'translateY(-14px)';
+      setTimeout(() => window.location.href = url, 430);
+    }
+
+    document.getElementById('close-btn').addEventListener('click', () => navigateTo('index.html'));
+  </script>
+</body>
+
+</html>
